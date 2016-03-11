@@ -8,8 +8,8 @@
 # docker run -p 5601:5601 -p 9200:9200 -p 5000:5000 -it --name elk <repo-user>/elk
 
 FROM phusion/baseimage
-MAINTAINER Sebastien Pujadas http://pujadas.net
-ENV REFRESHED_AT 2016-02-03
+MAINTAINER Michael Smith
+ENV REFRESHED_AT 2016-03-11
 
 ###############################################################################
 #                                INSTALLATION
@@ -76,6 +76,10 @@ RUN sed -i -e 's#^KIBANA_HOME=$#KIBANA_HOME='$KIBANA_HOME'#' /etc/init.d/kibana 
 
 ADD ./elasticsearch.yml /etc/elasticsearch/elasticsearch.yml
 
+ENV ES_HOME /usr/share/elasticsearch
+WORKDIR ${ES_HOME}
+
+RUN bin/plugin -i royrusso/elasticsearch-HQ
 
 ### configure Logstash
 
@@ -96,6 +100,11 @@ ADD ./30-output.conf /etc/logstash/conf.d/30-output.conf
 # patterns
 ADD ./nginx.pattern ${LOGSTASH_HOME}/patterns/nginx
 RUN chown -R logstash:logstash ${LOGSTASH_HOME}/patterns
+
+WORKDIR ${LOGSTASH_HOME}
+RUN bin/plugin install logstash-input-rss
+RUN bin/plugin install logstash-input-beats
+RUN bin/plugin update logstash-input-beats
 
 
 ###############################################################################
