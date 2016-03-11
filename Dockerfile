@@ -76,10 +76,6 @@ RUN sed -i -e 's#^KIBANA_HOME=$#KIBANA_HOME='$KIBANA_HOME'#' /etc/init.d/kibana 
 
 ADD ./elasticsearch.yml /etc/elasticsearch/elasticsearch.yml
 
-ENV ES_HOME /usr/share/elasticsearch
-WORKDIR ${ES_HOME}
-
-RUN bin/plugin -i royrusso/elasticsearch-HQ
 
 ### configure Logstash
 
