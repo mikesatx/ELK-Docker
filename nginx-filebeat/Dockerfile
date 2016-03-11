@@ -9,8 +9,8 @@
 #     --name filebeat-nginx-example <repo-user>/filebeat-nginx-example
 
 FROM nginx
-MAINTAINER Sebastien Pujadas http://pujadas.net
-ENV REFRESHED_AT 2015-11-28
+MAINTAINER Michael Smith
+ENV REFRESHED_AT 2016-03-11
 
 
 ###############################################################################
